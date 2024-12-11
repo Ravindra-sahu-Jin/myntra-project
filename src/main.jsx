@@ -5,6 +5,7 @@ import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import RootLayout from './RootLayout.jsx'
 import Product from './components/pages/Product.jsx'
+import MainContext from './context/MainContext.jsx'
 let router=createBrowserRouter([
   {
     path:'/',
@@ -19,6 +20,8 @@ let router=createBrowserRouter([
 ])
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router}/>
+    <MainContext>
+       <RouterProvider router={router}/>
+    </MainContext>
   </StrictMode>,
 )
