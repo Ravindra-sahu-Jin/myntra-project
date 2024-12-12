@@ -1,18 +1,42 @@
 import React, { useContext } from 'react'
 import { ProductConext } from '../../context/MainContext'
-
+import { Spinner } from 'flowbite-react'
+import 'react-responsive-pagination/themes/classic.css';
+import ResponsivePagination from 'react-responsive-pagination';
 export default function ProductLayout() {
-  let {product}=useContext(ProductConext)
+  let {product,loader,pagenumberFilterState,totalPage,setPagenumberFilterState}=useContext(ProductConext)
   return (
-    <div class=" grid grid-cols-4 gap-3">
+  <div>  
+
+
+    <div class=" grid grid-cols-4 gap-3 relative">
+
+    {loader
+      ?
+      <div className=' left-[40%] absolute w-[100px] h-[100px] bg-white rounded-[50%] flex justify-center items-center'>   
+        <Spinner aria-label="Extra large spinner example" class=" " size="xl" />
+      </div> 
+     :
+      ''
+    }
+ 
+
       {product.length>=1
           ?
           product.map((productItems,index)=><ProductItems key={index} productData={productItems}/>)
         :
           "No Data Found"
         }
-      
-     
+       
+    </div>
+   <div className='py-7'>
+      <ResponsivePagination
+        current={pagenumberFilterState}
+        total={totalPage}
+        onPageChange={setPagenumberFilterState}
+      />
+   </div> 
+
     </div>
   )
 }

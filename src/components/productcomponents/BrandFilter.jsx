@@ -1,8 +1,25 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ProductConext } from '../../context/MainContext'
 
 export default function BrandFilter() {
-    let {brand}=useContext(ProductConext)  
+    let {brand,brandFilterState,setBrandFilterState}=useContext(ProductConext)  
+     let [allCheckCat,setAllCheckCat]=useState([])
+    
+      let getCheckValue=(event)=>{
+    
+        if(event.target.checked){
+            setAllCheckCat([...allCheckCat,event.target.value])
+        }
+        else{
+            let filterData=allCheckCat.filter((items)=>items!=event.target.value)
+            setAllCheckCat(filterData)
+        }
+      }
+      
+      useEffect(()=>{
+        setBrandFilterState(allCheckCat.join(","))  
+        },[allCheckCat])
+
     return (
       <div>
          <div className="mt-4 border-t border-gray-200 p-3 border-2 mb-4 h-[300px] overflow-y-scroll">
@@ -12,7 +29,7 @@ export default function BrandFilter() {
                       brand.map((brandItems,index)=>{
                           return(
                               <li key={index} className="block px-2 py-3">
-                                <input type="checkbox" value={brandItems.slug} className='mr-3' />  
+                                <input onChange={getCheckValue} type="checkbox" value={brandItems.slug} className='mr-3' />  
                                   {brandItems.name}
                                  
                               </li>

@@ -6,27 +6,39 @@ export default function MainContext({children}) {
   let [product,setProduct]=useState([])  
   let [category,setCategory]=useState([]) 
   let [brand,setBrand]=useState([]) 
+  let [loader,setLoader]=useState(false)
+  let [totalPage,setTotalPage]=useState(0)
 
   let [categoryFilterState,setCategoryFilterState]=useState('')
-
+  let [brandFilterState,setBrandFilterState]=useState('')
+  let [sortFilterState,setSortFilterState]=useState(null)
+  let [rateFilterState,setRateFilterState]=useState(null)
+  let [pagenumberFilterState,setPagenumberFilterState]=useState(1)
   let getProduct=()=>{
+    setLoader(true)
     axios.get(`https://wscubetech.co/ecommerce-api/products.php`,{
         params:{
-            page: 1,
+            page: pagenumberFilterState,
             limit: 12,
             categories: categoryFilterState,
-            brands: '',
+            brands: brandFilterState,
             price_from:'', 
             price_to: '',
             discount_from:'', 
             discount_to: '',
-            rating: null,
-            sorting: null,
+            rating: rateFilterState,
+            sorting: sortFilterState,
         }
     })
     .then((res)=>res.data)
     .then((finalRes)=>{
+        setTotalPage(finalRes.toal_pages)
         setProduct(finalRes.data)
+        setLoader(false)
+        window.scrollTo({
+          top:0,
+          behavior:"smooth"
+        })
     })
   }  
   
@@ -53,9 +65,9 @@ export default function MainContext({children}) {
 
   useEffect(()=>{
     getProduct();
-  },[categoryFilterState])
+  },[categoryFilterState,brandFilterState,sortFilterState,rateFilterState,pagenumberFilterState])
 
-  let obj={product,category,brand,categoryFilterState,setCategoryFilterState}
+  let obj={loader,product,category,brand,categoryFilterState,setCategoryFilterState,brandFilterState,setBrandFilterState,setSortFilterState,totalPage,setPagenumberFilterState,pagenumberFilterState}
   return (
     <ProductConext.Provider value={obj}>
         {children}

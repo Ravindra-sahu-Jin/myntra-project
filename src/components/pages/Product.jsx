@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import SideBarFilter from '../productcomponents/SideBarFilter'
 import ProductLayout from '../productcomponents/ProductLayout'
+import { ProductConext } from '../../context/MainContext'
 
 export default function Product() {
+
+    let {setSortFilterState}=useContext(ProductConext)
     return (
         <>
             <section class="px-2 pb-3    border-b-1 border-bg-gray-300">
@@ -19,15 +22,15 @@ export default function Product() {
                         
                     </div>
                     <div class=" flex justify-end ">
-                        <select name="cars" id="cars" class="lg:w-[40%] md:py-1 md:w-[30%] rounded-none px-2 border border-gray-500" fdprocessedid="ypnfe">
-                            <option value="volvo">Name : A to Z</option>
-                            <option value="saab">Name : Z to A</option>
-                            <option value="mercedes">Price : Low to High</option>
-                            <option value="mercedes">Price : High to Low</option>
-                            <option value="mercedes">Discounted Price : Low to High</option>
-                            <option value="mercedes">Discounted Price : High to Low</option>
-                            <option value="mercedes">Rating : Low to High</option>
-                            <option value="mercedes">Rating : High to Low</option>
+                        <select onChange={(event)=>setSortFilterState(event.target.value)} name="cars" id="cars" class="lg:w-[40%] md:py-1 md:w-[30%] rounded-none px-2 border border-gray-500" fdprocessedid="ypnfe">
+                            <option value="1">Name : A to Z</option>
+                            <option value="2">Name : Z to A</option>
+                            <option value="3">Price : Low to High</option>
+                            <option value="4">Price : High to Low</option>
+                            <option value="5">Discounted Price : Low to High</option>
+                            <option value="6">Discounted Price : High to Low</option>
+                            <option value="7">Rating : Low to High</option>
+                            <option value="8">Rating : High to Low</option>
                         </select>
                     </div>
                 </div>
